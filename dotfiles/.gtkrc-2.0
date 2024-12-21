@@ -1,0 +1,15 @@
+include "/usr/local/share/themes/Moe-Blue16/gtk-2.0/gtkrc"
+
+style "user-font" {
+	font_name = "0xProto Nerd Font 10"
+}
+
+widget_class "*" style "user-font"
+
+gtk-font-name="0xProto Nerd Font 10"
+
+include "/home/heather/.gtkrc.mine"
+
+gtk-icon-theme-name="MoePinkIcons"
+
+

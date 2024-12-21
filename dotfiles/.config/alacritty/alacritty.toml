@@ -1,0 +1,9 @@
+[window]
+opacity = 0.8
+decorations = "None"
+
+[font]
+normal = { family = "0xProto Nerd Font" , style = "Regular" }
+
+[colors.primary]
+background = "#000000"

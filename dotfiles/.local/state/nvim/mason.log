@@ -1,0 +1,2 @@
+[INFO  Fri Dec 20 01:47:26 2024] ...e/nvim/lazy/mason.nvim/lua/mason-core/installer/init.lua:184: Executing installer for Package(name=lua-language-server) {}
+[ERROR Fri Dec 20 01:47:26 2024] ...e/nvim/lazy/mason.nvim/lua/mason-core/installer/init.lua:249: Installation failed for Package(name=lua-language-server) error="The current platform is unsupported."

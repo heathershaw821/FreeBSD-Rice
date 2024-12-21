@@ -1,0 +1,15 @@
+[Desktop Entry]
+Name=Moe-Blue16
+Type=X-GNOME-Metatheme
+Comment=Moebuntu theme that modified Ubuntu Yaru theme.
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=Moe-Blue16
+MetacityTheme=Moe-Blue16
+IconTheme=MoePinkIcons
+CursorTheme=Yaru, DMZ-White
+CursorSize=24
+X-Yaru-Dark=false
+X-Yaru-Accent-Name=default
+X-Yaru-Accent-Color=
