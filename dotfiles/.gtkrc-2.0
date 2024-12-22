@@ -1,4 +1,4 @@
-include "/usr/local/share/themes/Moe-Blue16/gtk-2.0/gtkrc"
+include "/usr/local/share/themes/Heathers-Ambiance/gtk-2.0/gtkrc"
 
 style "user-font" {
 	font_name = "0xProto Nerd Font 10"

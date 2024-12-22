@@ -13,5 +13,5 @@ sort-order='ascending'
 type-format='category'
 
 [org/gnome/desktop/interface]
-gtk-theme='Moe-Blue16'
+gtk-theme='Heathers-Ambiance'
 icon-theme='MoePinkIcons'

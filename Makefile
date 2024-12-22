@@ -1,11 +1,17 @@
 ALL: INSTALL
 
-INSTALL:
-	sudo pkg install gtk-murrine-engine neofetch i3status neovim jq
-	sudo cp -r fonts/* /usr/local/share/fonts/
-	sudo cp -r themes/* /usr/local/share/themes/
-	sudo cp -r icons/* /usr/local/share/icons/
-	sudo cp -r wallpaper/ ~/wallpaper/
+INSTALL: THEMES FONTS DOTFILES
+	sudo pkg install gtk-murrine-engine neofetch i3status neovim jq rsync
+
+THEMES:
+	sudo cp -R themes/* /usr/local/share/themes/
+	sudo cp -R icons/* /usr/local/share/icons/
+	sudo cp -R wallpaper/ ~/wallpaper/
+	
+FONTS:
+	sudo cp -R fonts/* /usr/local/share/fonts/
 	sudo fc-cache -vf
-	cp -rf dotfiles/.* ~/
+
+DOTFILES:
+	rsync -a dotfiles/ ~/.
 

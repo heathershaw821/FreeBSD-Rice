@@ -2,6 +2,8 @@
 
 **FreeBSD-Rice** is Heather's personal collection of themes and configuration files for a beautifully customized desktop environment. It includes configurations for tools like **SwayWM**, **Bash**, **Neovim**, and more. Install everything quickly and easily using `make`.
 
+**GTK theme based on**: https://github.com/witalihirsch/Mono-gtk-theme/releases/tag/1.3
+
 ![Screenshot](screenshot1.png)
 ![Screenshot](screenshot2.png)
 
