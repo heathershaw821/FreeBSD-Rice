@@ -15,3 +15,4 @@ type-format='category'
 [org/gnome/desktop/interface]
 gtk-theme='Heathers-Ambiance'
 icon-theme='MoePinkIcons'
+font-name='0xProto Nerd Font, 10'

@@ -1,4 +1,4 @@
-gtk-color-scheme = "base_color:#ffffff\nfg_color:#4c4c4c\ntooltip_fg_color:#ffffff\nselected_bg_color:#A2D2DF\nselected_fg_color:#FFFFFF\ntext_color:#3C3C3C\nbg_color:#A2D2DF;\ntooltip_bg_color:#789DBC;\nlink_color:#DD4814"
+gtk-color-scheme = "base_color:#000000\nfg_color:#adb4b4\ntooltip_fg_color:#ffffff\nselected_bg_color:#04ca9f\nselected_fg_color:#252525\ntext_color:#adb4b4\nbg_color:#000000;\ntooltip_bg_color:#000000;\nlink_color:#DD4814"
 
 gtk-icon-sizes = "panel-menu=22,22:gtk-button=16,16"
 
@@ -124,10 +124,9 @@ style "default" {
 
 style "dark"
 {
-	color["bg_color_dark"] 	= "#494949"
-#3c3b37
-	color["fg_color_dark"] 	= "#dedede"
-	color["selected_fg_color_dark"] = "#ffffff"
+	color["bg_color_dark"] 	= "#000000"
+	color["fg_color_dark"] 	= "#adb4b4"
+	color["selected_fg_color_dark"] = "#04ca9f"
 
 	fg[NORMAL]        = @fg_color_dark
 	fg[PRELIGHT]	  = shade (1.15, @fg_color_dark)
@@ -149,10 +148,9 @@ style "dark"
 }
 style "dark-menu"
 {
-	color["bg_color_dark"] 	= "#3e3e3e"
-#3c3b37
-	color["fg_color_dark"] 	= "#dedede"
-	color["selected_fg_color_dark"] = "#ffffff"
+	color["bg_color_dark"] 	= "#000000"
+	color["fg_color_dark"] 	= "#adb4b4"
+	color["selected_fg_color_dark"] = "#04ca9f"
 
 	fg[NORMAL]        = @fg_color_dark
 	fg[PRELIGHT]	  = shade (1.15, @fg_color_dark)

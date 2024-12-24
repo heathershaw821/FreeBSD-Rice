@@ -226,8 +226,8 @@ bindsym $mod+Shift+Print exec grim -g "$(slurp)"
 
 # theme
 
-set $bg #C6E7FF
-set $bg2 #D4F6FF
+set $bg #04ca9f
+set $bg2 #04ca9f
 set $inactive #A6AEBF
 set $fg #000000
 set $border $bg
