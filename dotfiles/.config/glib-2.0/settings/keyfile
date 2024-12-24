@@ -14,5 +14,5 @@ type-format='category'
 
 [org/gnome/desktop/interface]
 gtk-theme='Heathers-Ambiance'
-icon-theme='Ghost Flat'
+icon-theme='besgnulinux-mono-grey'
 font-name='0xProto Nerd Font, 10'
