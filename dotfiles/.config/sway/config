@@ -6,6 +6,31 @@
 
 ### Variables
 #
+
+###########
+# theme
+
+set $bg #04ca9f
+set $bg2 #04ca9f
+set $inactive #A6AEBF
+set $fg #000000
+set $border $bg
+set $urgent #FFDDAE
+client.focused $border $bg $fg
+client.focused_inactive $border $bg2 $fg
+client.unfocused $border $inactive $fg
+client.urgent $border $urgent $fg
+client.placeholder $border $inactive $fg
+client.background $inactive
+
+font "0xProto Nerd Font 10"
+
+focus_follows_mouse no
+
+# remove titlebar but keep borders 
+for_window [class=".*"] border pixel 1
+
+#################################################################
 xwayland enable
 
 # Logo key. Use Mod1 for Alt.
@@ -17,12 +42,12 @@ set $up KP_Up
 set $right KP_Right
 
 # Your preferred terminal emulator
-set $term alacritty
+set $term kitty
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
 #set $menu dmenu_path | wmenu | xargs swaymsg exec --
-set $menu dmenu_run
+set $menu dmenu-wl_run -nb '$bg' -sf '$bg' -sb '$fg' -nf '$fg' -fn '0xProto Nerd Font-10' -h 23
 
 # wallpaper
 set $wallpaper ~/wallpaper/default.png
@@ -224,27 +249,6 @@ bindsym $mod+r mode "resize"
 bindsym $mod+Print exec grim
 bindsym $mod+Shift+Print exec grim -g "$(slurp)"
 
-# theme
-
-set $bg #04ca9f
-set $bg2 #04ca9f
-set $inactive #A6AEBF
-set $fg #000000
-set $border $bg
-set $urgent #FFDDAE
-client.focused $border $bg $fg
-client.focused_inactive $border $bg2 $fg
-client.unfocused $border $inactive $fg
-client.urgent $border $urgent $fg
-client.placeholder $border $inactive $fg
-client.background $inactive
-
-font "lato 10"
-
-focus_follows_mouse no
-
-# remove titlebar but keep borders 
-for_window [class=".*"] border pixel 1
 
 #
 # Status Bar:
