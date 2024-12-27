@@ -1,15 +1,20 @@
-#!/usr/local/bin/bash
+#!/usr/bin/env bash
 
 
-WLAST_RUN=999999999
-WEATHER=""
+declare -g WLAST_RUN=999999999
+declare -g WEATHER=""
 
-function weather() {
-    # Check if the last run was within 30 minutes
-    if (( $(date +%s) - $WLAST_RUN < 1800 )); then 
-        echo "$WEATHER"
+function update_weather() {
+    # Get current timestamp and calculate DELTA
+    local CURRENT_TIME=$(date +%s)
+    local DELTA=$(( CURRENT_TIME - WLAST_RUN ))
+		
+		if (( DELTA >= 1800 )); then
+				WLAST_RUN=$CURRENT_TIME
+				export WLAST_RUN
+		else
         return 1
-    fi
+		fi
 
     # Fetch IP information
     IPINFO=$(curl -s http://ip-api.com/json/)
@@ -33,13 +38,13 @@ function weather() {
 
     # Determine weather icons
     if [[ "$ISDAY" == "true" ]]; then
-        if (( $PRECIPITATION > 0.2 )); then
+        if (( $(echo "$PRECIPITATION > 0.2" | bc -l) )); then
             ICON="" # Daytime rainy
         else
             ICON="" # Daytime clear
         fi
     else
-        if (( $PRECIPITATION > 0.2 )); then
+        if (( $(echo "$PRECIPITATION > 0.2" | bc -l) )); then
             ICON="" # Nighttime rainy
         else
             ICON="" # Nighttime clear
@@ -47,11 +52,8 @@ function weather() {
     fi
 
     # Update weather string and timestamp
-    declare -g WEATHER="$ICON $TEMP󰔅"
-    declare -g WLAST_RUN=$(date +%s)
-
-    # Output weather
-    echo "$WEATHER"
+    WEATHER="$ICON $TEMP󰔅"
+    WLAST_RUN=$(date +%s)
 }
 
 # Define swaybar width (adjust based on your screen resolution if needed)
@@ -66,7 +68,8 @@ i3status -c ~/.config/sway/i3status.conf | while :
 do
     # Read i3status output line
     read -r line
-		line="$(weather)$line"
+		update_weather
+		line="$WEATHER$line"
 
     # Get the current window title using swaymsg
     window_title=$(swaymsg -t get_tree | jq -r '.. | select(.focused? == true).name')
