@@ -33,13 +33,13 @@ function weather() {
 
     # Determine weather icons
     if [[ "$ISDAY" == "true" ]]; then
-        if (( PRECIPITATION > 0.2 )); then
+        if (( $PRECIPITATION > 0.2 )); then
             ICON="" # Daytime rainy
         else
             ICON="" # Daytime clear
         fi
     else
-        if (( PRECIPITATION > 0.2 )); then
+        if (( $PRECIPITATION > 0.2 )); then
             ICON="" # Nighttime rainy
         else
             ICON="" # Nighttime clear
