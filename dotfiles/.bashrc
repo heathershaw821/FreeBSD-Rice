@@ -60,21 +60,21 @@ function box() {
 ### PLUGINS ####################################################################
 function gitintegrate() {
   # if git is not installed, why break things?
-  if [ $(dpkg -s git &> /dev/null; echo $?) -eq 1 ]; then return 1; fi
+  if [ $(pkg -s git &> /dev/null; echo $?) -eq 1 ]; then return 1; fi
   if [[ -d .git || -f .gitkeep ]]; then
     BRANCH=$( git branch|grep '* '|tr -d '* \n')
     
     A=$(echo -n $GREEN'+'$RST | escape_sed)
     D=$(echo -n $RED'-'$RST | escape_sed)
     F=$(echo -n $LYELLOW'*'$RST | escape_sed)
-    STAT=$(git diff --shortstat origin/$BRANCH\
-      | sed -E "s/\bfile(s)? changed\b/$F/g"\
-      | sed -E "s/\binsertion(s)?\b//g"\
-      | sed -E "s/\bdeletion(s)?\b//g"\
-      | sed "s/-/$D/g"\
-      | sed "s/\\+/$A/g"\
-      | tr -d ' ()\n'
-      )
+		STAT=$(git diff --shortstat origin/$BRANCH \
+    | sed "s/file[s]* changed/$F/g" \
+    | sed "s/insertion[s]*//g" \
+    | sed "s/deletion[s]*//g" \
+    | sed "s/-/$D/g" \
+    | sed "s/\\+/$A/g" \
+    | tr -d ' ()\n')
+
     if [ -v $STAT ]; then 
       box $CYAN "$BRANCH"
     else
@@ -84,7 +84,7 @@ function gitintegrate() {
   return 0
 }
 
-enabled_prompt_plugins=
+enabled_prompt_plugins=gitintegrate
 
 function plugins() {
   OFFSET=$(( $(echo -n $HEND|wc -c) / 2 + 1 ))

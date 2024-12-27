@@ -33,13 +33,14 @@ for_window [class=".*"] border pixel 1
 #################################################################
 xwayland enable
 
-# Logo key. Use Mod1 for Alt.
+# Mod4 for Logo key. Use Mod1 for Alt.
 set $mod Mod4
-# Home row direction keys, like vim
-set $left KP_Left
-set $down KP_Down
-set $up KP_Up
-set $right KP_Right
+
+# vim directional keys
+set $left h
+set $down j
+set $up k
+set $right l
 
 # Your preferred terminal emulator
 set $term kitty
@@ -151,11 +152,6 @@ input "2:7:SynPS/2_Synaptics_TouchPad" {
     bindsym $mod+Shift+$down move down
     bindsym $mod+Shift+$up move up
     bindsym $mod+Shift+$right move right
-    # Ditto, with arrow keys
-    bindsym $mod+Shift+Left move left
-    bindsym $mod+Shift+Down move down
-    bindsym $mod+Shift+Up move up
-    bindsym $mod+Shift+Right move right
 #
 # Workspaces:
 #
@@ -170,6 +166,7 @@ input "2:7:SynPS/2_Synaptics_TouchPad" {
     bindsym $mod+8 workspace number 8
     bindsym $mod+9 workspace number 9
     bindsym $mod+0 workspace number 10
+
     # Move focused container to workspace
     bindsym $mod+Shift+1 move container to workspace number 1
     bindsym $mod+Shift+2 move container to workspace number 2
@@ -203,8 +200,8 @@ input "2:7:SynPS/2_Synaptics_TouchPad" {
     # Toggle the current focus between tiling and floating mode
     bindsym $mod+Shift+space floating toggle
 
-    # Swap focus between the tiling area and the floating area
-    bindsym $mod+space focus mode_toggle
+    # swap between layout styles as a toggle
+    bindsym $mod+space exec swaymsg layout toggle splitv splith tabbed 
 
     # Move focus to the parent container
     bindsym $mod+a focus parent
@@ -229,15 +226,9 @@ mode "resize" {
     # up will shrink the containers height
     # down will grow the containers height
     bindsym $left resize shrink width 10px
-    bindsym $down resize grow height 10px
-    bindsym $up resize shrink height 10px
+    bindsym $up resize grow height 10px
+    bindsym $down resize shrink height 10px
     bindsym $right resize grow width 10px
-
-    # Ditto, with arrow keys
-    bindsym Left resize shrink width 10px
-    bindsym Down resize grow height 10px
-    bindsym Up resize shrink height 10px
-    bindsym Right resize grow width 10px
 
     # Return to default mode
     bindsym Return mode "default"
@@ -249,6 +240,9 @@ bindsym $mod+r mode "resize"
 bindsym $mod+Print exec grim
 bindsym $mod+Shift+Print exec grim -g "$(slurp)"
 
+# Volume control
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
 
 #
 # Status Bar:

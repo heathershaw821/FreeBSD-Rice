@@ -15,3 +15,6 @@ FONTS:
 DOTFILES:
 	rsync -a dotfiles/ ~/.
 
+THINKPAD:
+	sudo rsync -a root/ /
+
