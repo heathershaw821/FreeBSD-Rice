@@ -2,7 +2,7 @@
 ################################################################################
 # If not running interactively, don't do anything
 case $- in
-    *i*) ;;
+ *i*) ;;
       *) return;;
 esac
 
@@ -60,7 +60,7 @@ function box() {
 ### PLUGINS ####################################################################
 function gitintegrate() {
   # if git is not installed, why break things?
-  if [ $(pkg -s git &> /dev/null; echo $?) -eq 1 ]; then return 1; fi
+  if [ $(which git &> /dev/null; echo $?) -eq 1 ]; then return 1; fi
   if [[ -d .git || -f .gitkeep ]]; then
     BRANCH=$( git branch|grep '* '|tr -d '* \n')
     

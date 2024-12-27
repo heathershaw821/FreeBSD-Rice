@@ -1,6 +1,59 @@
 #!/usr/local/bin/bash
 
 
+WLAST_RUN=999999999
+WEATHER=""
+
+function weather() {
+    # Check if the last run was within 30 minutes
+    if (( $(date +%s) - $WLAST_RUN < 1800 )); then 
+        echo "$WEATHER"
+        return 1
+    fi
+
+    # Fetch IP information
+    IPINFO=$(curl -s http://ip-api.com/json/)
+    LAT=$(echo "$IPINFO" | jq .lat)
+    LON=$(echo "$IPINFO" | jq .lon)
+    if [[ -z "$LAT" || -z "$LON" || "$LAT" == "null" || "$LON" == "null" ]]; then
+        return 1
+    fi
+
+    # Fetch weather forecast
+    FLINK=$(curl -s "https://api.weather.gov/points/$LAT,$LON" | jq -r .properties.forecast)
+    if [[ -z "$FLINK" || "$FLINK" == "null" ]]; then
+        return 1
+    fi
+
+    FORECAST=$(curl -s "$FLINK")
+    TEMP=$(echo "$FORECAST" | jq .properties.periods[0].temperature)
+    ISDAY=$(echo "$FORECAST" | jq .properties.periods[0].isDaytime)
+    PRECIPITATION=$(echo "$FORECAST" | jq .properties.periods[0].probabilityOfPrecipitation.value)
+		PRECIPITATION=$([[ $PRECIPITATION == "null" ]] && echo "0" || echo $PRECIPITATION)
+
+    # Determine weather icons
+    if [[ "$ISDAY" == "true" ]]; then
+        if (( PRECIPITATION > 50 )); then
+            ICON="" # Daytime rainy
+        else
+            ICON="" # Daytime clear
+        fi
+    else
+        if (( PRECIPITATION > 50 )); then
+            ICON="" # Nighttime rainy
+        else
+            ICON="" # Nighttime clear
+        fi
+    fi
+
+    # Update weather string and timestamp
+    declare -g WEATHER="$ICON $TEMP󰔅"
+    declare -g WLAST_RUN=$(date +%s)
+
+    # Output weather
+    echo "$WEATHER"
+}
+
 # Define swaybar width (adjust based on your screen resolution if needed)
 FONT_SIZE=10
 BAR_WIDTH=$(swaymsg -t get_outputs | jq -r '.[] | select(.focused).rect.width')
@@ -13,6 +66,7 @@ i3status -c ~/.config/sway/i3status.conf | while :
 do
     # Read i3status output line
     read -r line
+		line="$(weather)$line"
 
     # Get the current window title using swaymsg
     window_title=$(swaymsg -t get_tree | jq -r '.. | select(.focused? == true).name')
