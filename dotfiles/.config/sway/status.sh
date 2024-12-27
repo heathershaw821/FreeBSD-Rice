@@ -61,7 +61,7 @@ FONT_SIZE=10
 BAR_WIDTH=$(swaymsg -t get_outputs | jq -r '.[] | select(.focused).rect.width')
 
 # WIDTH in characters
-BAR_WIDTH=$(echo "$BAR_WIDTH / ($FONT_SIZE - 0.5)" | bc)
+BAR_WIDTH=$(echo "$BAR_WIDTH / ($FONT_SIZE - 1)" | bc)
 
 # Start i3status
 i3status -c ~/.config/sway/i3status.conf | while :
@@ -79,7 +79,7 @@ do
 
     # Combine centered window title and right-aligned i3status output
     
-		padding_chars=$(( (BAR_WIDTH - ${#window_title}) / 2 ))
+		padding_chars=$(( (BAR_WIDTH - (${#window_title} + ${#line})) / 2 ))
 		# Ensure padding is non-negative
 		if [ "$padding_chars" -lt 0 ]; then
 			  padding_chars=0
