@@ -1,0 +1,41 @@
+set -g mouse on
+
+# don't do anything when a 'bell' rings
+set -g visual-activity on
+set -g visual-bell on
+set -g visual-silence off
+setw -g monitor-activity on
+set -g bell-action any
+set -s default-terminal 'tmux-256color'
+
+set -g status-style 'bg=#04ca9f,fg=black'
+set -g status on
+set -g status-interval 1
+set -g status-position top
+
+set -g status-right "#{?window_bigger,[#{window_offset_x}#,#{window_offset_y}] ,}#{=21:pane_title}"
+set -ag status-right "#(uptime | cut -f 5-6 -d ' ' | cut -f 1 -d ',') "
+set -g status-right-length 40
+
+set -g status-left-length 20
+set -g status-left-style default
+set -g status-left "#[default]"
+
+setw -g window-status-style fg=#636363
+setw -ag window-status-style bg=default
+setw -g window-status-current-style fg=default
+setw -ag window-status-current-style bg=default
+
+setw -g window-status-current-format ' #W'
+setw -g window-status-format ' #W'
+setw -g window-status-separator " "
+setw -g window-status-activity-style 'fg=red bg=#04ca9f'
+
+set -g pane-border-style fg=#04ca9f
+set -g pane-active-border-style "bg=default fg=#04ca9f"
+
+# copy mode
+setw -g mode-style 'fg=black bg=red bold'
+
+# messages
+set -g message-style 'fg=white bg=red bold'
