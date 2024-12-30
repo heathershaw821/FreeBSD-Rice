@@ -51,7 +51,7 @@ set $term kitty
 set $menu dmenu-wl_run -nb '$bg' -sf '$bg' -sb '$fg' -nf '$fg' -fn '0xProto Nerd Font-10' -h 23
 
 # wallpaper
-set $wallpaper ~/wallpaper/default.png
+set $wallpaper ~/wallpaper/bit-pirate.jpg
 set $wallpaper_mode fill
 
 # locker
