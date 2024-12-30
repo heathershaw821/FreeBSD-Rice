@@ -92,7 +92,7 @@ function plugins() {
   for plugin in $enabled_prompt_plugins; do
     OUTPUT=$($plugin)
     if ! [ -v $OUTPUT ]; then
-      echo -n "\n$PADDING╰──$OUTPUT"
+      echo -n "$OUTPUT"
     fi
   done
 }
@@ -110,7 +110,7 @@ HEND=-1
 function set_prompt() {
   export HEND=$(( $HEND + 1 ))
   
-  PS1="[$HEND]"$(box $UIDC'\u'$RST'@\h:\w')$(plugins)"$UIDC $RED❤️ $RST"
+  PS1="[$HEND]"$(box $UIDC'\u'$RST'@\h:\w')$(plugins)"$UIDC$RED  $UIDC "
 }
 
 PROMPT_COMMAND=set_prompt
