@@ -105,12 +105,11 @@ else
   UIDC="$RST"
 fi
 
-# While I am aware of \#, I need to actually keep track for other things
-HEND=-1
+
 function set_prompt() {
-  export HEND=$(( $HEND + 1 ))
   
-  PS1="[$HEND]"$(box $UIDC'\u'$RST'@\h:\w')$(plugins)"$UIDC$RED  $UIDC "
+	PS1=$(box $UIDC'\u'$RST'@\h:\w')$(plugins)"$UIDC$RED  $UIDC "
+
 }
 
 PROMPT_COMMAND=set_prompt
