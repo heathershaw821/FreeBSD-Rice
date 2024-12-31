@@ -29,6 +29,7 @@ setw -ag window-status-current-style bg=default
 setw -g window-status-current-format ' #W'
 setw -g window-status-format ' #W'
 setw -g window-status-separator " "
+setw -g window-status-bell-style 'fg=red bg=#04ca9f'
 setw -g window-status-activity-style 'fg=red bg=#04ca9f'
 
 set -g pane-border-style fg=#04ca9f

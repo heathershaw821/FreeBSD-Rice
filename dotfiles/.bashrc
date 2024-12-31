@@ -177,18 +177,21 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# Set 'man' colors
-man() {
-  env \
-  LESS_TERMCAP_mb=$'\e[01;31m' \
-  LESS_TERMCAP_md=$'\e[01;31m' \
-  LESS_TERMCAP_me=$'\e[0m' \
-  LESS_TERMCAP_se=$'\e[0m' \
-  LESS_TERMCAP_so=$'\e[01;44;33m' \
-  LESS_TERMCAP_ue=$'\e[0m' \
-  LESS_TERMCAP_us=$'\e[01;32m' \
-  man "$@"
-}
+
+export LESS_TERMCAP_us=$'\e[01;38;5;208m'  # Underlined text
+export LESS_TERMCAP_mb=$'\e[01;38;5;196m'  # Bold text 
+export LESS_TERMCAP_md=$'\e[01;38;5;44m'  # Bold text
+export LESS_TERMCAP_so=$'\e[01;48;5;233;38;5;51m'  # Standout text
+export LESS_TERMCAP_fg=$'\e[38;5;15m'     # Bright white text (XTerm Color 15)
+export LESS_TERMCAP_bg=$'\e[48;5;235m'     # Dark gray background (XTerm Color 235)
+export LESS_TERMCAP_me=$'\e[0m'             # End bold/underline formatting
+export LESS_TERMCAP_ue=$'\e[0m'             # End underlined text
+export LESS_TERMCAP_se=$'\e[0m'             # End standout text
+
+
+export LESS="--RAW-CONTROL-CHARS"
+export GROFF_NO_SGR=1         # For Konsole and Gnome-terminal
+
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
