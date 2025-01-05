@@ -1,5 +1,10 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ################################################################################
+
+. /usr/local/lib/heather/colors
+
+export PATH=~/.local/bin:$PATH
+
 # If not running interactively, don't do anything
 case $- in
  *i*) ;;
@@ -24,38 +29,6 @@ shopt -s extdebug
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 
-
-### SHELL ESCAPES ##############################################################
-
-function esc() {
-  echo -en "\[\e[$1m\]"
-}
-
-# MODIFIERS
-RST=$(esc 0); BOLD=$(esc 1); DIM=$(esc 2); UNDERLINE=$(esc 4); BLINK=$(esc 5)
-REVERSE=$(esc 7)
-
-# FOREGROUND
-DEFAULT=$(esc 39); BLACK=$(esc 30); RED=$(esc 31); GREEN=$(esc 32); YELLOW=$(esc 33)
-BLUE=$(esc 34); MAGENTA=$(esc 35); CYAN=$(esc 36); LGREY=$(esc 37); GREY=$(esc 90)
-LRED=$(esc 91); LGREEN=$(esc 92); LYELLOW=$(esc 93); LBLUE=$(esc 94); LMAGENTA=$(esc 95)
-LCYAN=$(esc 96); WHITE=$(esc 97)
-
-# BACKGROUND
-DEFAULTB=$(esc 49); BLACKB=$(esc 40); REDB=$(esc 41); GREENB=$(esc 42); YELLOWB=$(esc 43)
-BLUEB=$(esc 44); MAGENTAB=$(esc 45); CYANB=$(esc 46); LGREYB=$(esc 47); GREYB=$(esc 100)
-LREDB=$(esc 101); LGREENB=$(esc 102); LYELLOWB=$(esc 103); LBLUEB=$(esc 104)
-LMAGENTAB=$(esc 105); LCYANB=$(esc 106); WHITEB=$(esc 107)
-
-### DRAWING ####################################################################
-
-function box() {
-  if [ $# -gt 1 ]; then
-    echo -en $BOLD$1[$RST$2$BOLD$1]$RST
-  else
-    echo -en $BOLD$RED[$RST$1$BOLD$RED]$RST
-  fi
-}
 
 ### PLUGINS ####################################################################
 function gitintegrate() {
@@ -147,7 +120,7 @@ function gitignore() {
 
 ### HELPFUL ALIAS STUFF ########################################################
 
-alias ls='gnuls --color=auto'
+alias ls='uu-ls --color=auto'
 alias dd='dd status=progress'
 alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'
