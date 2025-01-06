@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+### SHELL ESCAPES ##############################################################
+
+function esc() {
+	case $- in
+		*i*) echo -en "\[\e[$1m\]";;
+		*) echo -en "\e[$1m";;
+	esac
+}
+
+export esc
+
+# MODIFIERS
+export RST=$(esc 0); export BOLD=$(esc 1); export DIM=$(esc 2); export UNDERLINE=$(esc 4); export BLINK=$(esc 5)
+export REVERSE=$(esc 7)
+
+# FOREGROUND
+export DEFAULT=$(esc 39); export BLACK=$(esc 30); export RED=$(esc 31); export GREEN=$(esc 32);
+export YELLOW=$(esc 33); export BLUE=$(esc 34); export MAGENTA=$(esc 35); export CYAN=$(esc 36);
+export LGREY=$(esc 37); export GREY=$(esc 90); export LRED=$(esc 91); export LGREEN=$(esc 92);
+export LYELLOW=$(esc 93); export LBLUE=$(esc 94); export LMAGENTA=$(esc 95); export LCYAN=$(esc 96);
+export WHITE=$(esc 97)
+
+# BACKGROUND
+export DEFAULTB=$(esc 49); export BLACKB=$(esc 40); export REDB=$(esc 41); export GREENB=$(esc 42);
+export YELLOWB=$(esc 43); export BLUEB=$(esc 44); export MAGENTAB=$(esc 45); export CYANB=$(esc 46);
+export LGREYB=$(esc 47); export GREYB=$(esc 100); export LREDB=$(esc 101); export LGREENB=$(esc 102);
+export LYELLOWB=$(esc 103); LBLUEB=$(esc 104) export LMAGENTAB=$(esc 105); export LCYANB=$(esc 106);
+export WHITEB=$(esc 107)
+
+export THEME_BOLD=$(esc "01;38;5;208")
+export THEME_STANDOUT=$(esc "01;48;5;233;38;5;51")
+### DRAWING ####################################################################
+
+function box() {
+  if [ $# -gt 1 ]; then
+    echo -en $BOLD$1[$RST$2$BOLD$1]$RST
+  else
+    echo -en $BOLD$RED[$RST$1$BOLD$RED]$RST
+  fi
+}
+
+export box
+
