@@ -152,13 +152,14 @@ fdescfs         /usr/local/jails/containers/$1/dev/fd   fdescfs         rw,linrd
 linprocfs       /usr/local/jails/containers/$1/proc     linprocfs       rw                      0       0
 linsysfs        /usr/local/jails/containers/$1/sys      linsysfs        rw                      0       0
 """
-	sudo chroot /usr/local/jails/containers/$1 echo "root::0:0::0:0: &:/root:/bin/bash" > /usr/local/jails/containers/$1/etc/master.passwd
+	sudo bash -c "echo 'root:*:0:0: &:/root:/bin/bash' > /usr/local/jails/containers/$1/etc/master.passwd"
 	sudo /usr/sbin/pwd_mkdb -d /usr/local/jails/containers/$1/etc -p /usr/local/jails/containers/$1/etc/master.passwd
 	sudo chroot /usr/local/jails/containers/$1 echo "exit 0">> /etc/rc.local
 	sudo chroot /usr/local/jails/containers/$1 echo "exit 0">> /etc/rc.shutdown
 	sudo chroot /usr/local/jails/containers/$1 ln -s /bin/bash /usr/local/bin/bash
 	sudo bash -c "echo '$FSTAB' > /usr/local/jails/containers/$1/etc/fstab"
 	sudo bash -c "echo '$DEFAULT_CONFIG' > /etc/jail.conf.d/$1.conf"
+	echo -e "${RED}IF YOU WANT APT AND SUCH, COPY THE PASSWD FILE FROM THE TEMPLATE INTO THE JAIL$RST"
 }
 
 case $2 in
