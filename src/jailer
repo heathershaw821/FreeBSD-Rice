@@ -17,13 +17,19 @@ function print_help {
 			print_command "delete" "name" "deletes a template image"
 			print_command "list" "" "print out the available templates"
 		;;
+		"snapshot")
+			print_command "new" "name url" "creates a new snapshot"
+			print_command "delete" "name" "deletes a snapshot"
+			print_command "list" "" "print out the available snapshots"
+		;;
 		*)
 			printf "$(box $CYAN "Available God Commands")\n\n"
 			printf "Usage: $BOLD${GREEN}jailer ${THEME_BOLD}command ${THEME_STANDOUT}[args]$RST\n\n"
 
 			print_command "create" "jail template" "Create a Jail and it's base configuration."
 			print_command "destroy" "jail" "Destroy a Jail and its configuration."
-			print_command "template" "[new|delete|?]" "template command"
+			print_command "template" "[list|new|delete|?]" "template manager"
+			print_command "snapshot" "[list|new|delete]" "snapshot manager"
 			print_command "running" "" "grabs a list of running Jails"
 		
 			printf "\n\n$(box $CYAN "Available Jail commands")\n\n"
@@ -85,7 +91,8 @@ function destroy_jail {
 
 	sudo chflags -R 0 /usr/local/jails/containers/$1
 	
-	sudo umount /usr/local/jails/containers/$1/dev
+	sudo umount -f /usr/local/jails/containers/$1/dev
+	sudo umount -f /usr/local/jails/containers/$1
 	sudo zfs destroy zroot/jails/containers/$1
 	sudo rm -rf /usr/local/jails/containers/$1 /etc/jail.conf.d/$1.conf
 }
@@ -120,11 +127,11 @@ function linuxify {
 	network=$(netstat -rn | grep default | awk '{print $4}'| head -n 1 | tr -d '\n')
 	DEFAULT_CONFIG="""
 $1 {
-	exec.start = \"/bin/true\";
-  exec.stop = \"/bin/true\";
+	exec.start = \"/etc/rc.local\";
+  exec.stop = \"/etc/rc.shutdown\";
   # STARTUP/LOGGING
   exec.consolelog = \"/var/log/jail_console_\${name}.log\";
-  exec.jail_user = \"$USER\";
+  exec.jail_user = \"root\";
   
 	persist;
   devfs_ruleset = 5;
@@ -152,14 +159,32 @@ fdescfs         /usr/local/jails/containers/$1/dev/fd   fdescfs         rw,linrd
 linprocfs       /usr/local/jails/containers/$1/proc     linprocfs       rw                      0       0
 linsysfs        /usr/local/jails/containers/$1/sys      linsysfs        rw                      0       0
 """
-	sudo bash -c "echo 'root:*:0:0: &:/root:/bin/bash' > /usr/local/jails/containers/$1/etc/master.passwd"
+	sudo bash -c "echo -e 'root::0:0::0:0:Charlie &:/root:/bin/sh\ntoor:*:0:0::0:0:Bourne-again Superuser:/root:' > /usr/local/jails/containers/$1/etc/master.passwd"
 	sudo /usr/sbin/pwd_mkdb -d /usr/local/jails/containers/$1/etc -p /usr/local/jails/containers/$1/etc/master.passwd
-	sudo chroot /usr/local/jails/containers/$1 echo "exit 0">> /etc/rc.local
-	sudo chroot /usr/local/jails/containers/$1 echo "exit 0">> /etc/rc.shutdown
+	sudo chroot /usr/local/jails/containers/$1 bash -c 'echo "exit 0">> /etc/rc.local;chmod +x rc.local'
+	sudo chroot /usr/local/jails/containers/$1 bash -c 'echo "exit 0">> /etc/rc.shutdown;chmod +x rc.shutdown'
 	sudo chroot /usr/local/jails/containers/$1 ln -s /bin/bash /usr/local/bin/bash
 	sudo bash -c "echo '$FSTAB' > /usr/local/jails/containers/$1/etc/fstab"
 	sudo bash -c "echo '$DEFAULT_CONFIG' > /etc/jail.conf.d/$1.conf"
 	echo -e "${RED}IF YOU WANT APT AND SUCH, COPY THE PASSWD FILE FROM THE TEMPLATE INTO THE JAIL$RST"
+}
+
+function snapshot_handler {
+	case "$1" in
+		"list")
+			sudo zfs list -t snap
+			;;
+		"new")
+			sudo zfs snapshot zroot/jails/containers/$2
+			;;
+		"delete")
+			sudo zfs destroy -d zroot/jails/containers/$2
+			;;
+		*)
+			print_help "snapshot"
+			;;
+	esac
+	
 }
 
 case $2 in
@@ -187,7 +212,7 @@ case $2 in
 	"shell")
 		sudo jexec -u $3 $1 ${@:4}
 		;;
-		*)
+	*)
 		case $1 in
 			"destroy")
 				echo -e $(box $CYAN "Destroying Jail '$2'")
@@ -205,6 +230,9 @@ case $2 in
 				;;
 			"running")
 				sudo service jail status
+				;;
+			"snapshot")
+				snapshot_handler ${@:2}
 				;;
 			*)
 				print_help
